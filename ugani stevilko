@@ -1,0 +1,18 @@
+{%extends "base.html" %}
+{%block title%}Ugani stevilo{%endblock title%}
+
+{%block vsebina%}
+<div class="row">
+<form method="post" action="ugani">
+    <p>Vnesi srecno stevilo</p>
+<input name="stevilo" placeholder="Stevilo"><br>
+    <button type="submit">Srecni klik</button><br>
+</form>
+    </div>
+{%endblock vsebina%}
+{%block rezultat%}
+<div class="row"><p>{{rezultat}}</p></div>
+{%endblock rezultat%}
+
+</body>
+</html>
