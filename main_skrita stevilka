@@ -1,4 +1,4 @@
-!/usr/bin/env python
+#!/usr/bin/env python
 import os
 import jinja2
 import webapp2
@@ -46,6 +46,13 @@ class UganiHandler(BaseHandler):
         stevilo2=56
         pravilno="Cestitamo, uganili ste pravo stevilko"
         nepravilno="Zal vec srece prihodnjic. Napisana stevilka ni prava"
+
+
+        if stevilo1 == stevilo2:
+            rezultat=pravilno
+        else:
+            rezultat=nepravilno
+
         spremenljivke={
             "stevilo1":stevilo1,
             "stevilo2":stevilo2,
@@ -53,12 +60,7 @@ class UganiHandler(BaseHandler):
             "pravilno":pravilno,
             "nepravilno":nepravilno
             }
-
-        if stevilo1 == stevilo2:
-            self.write(pravilno)
-        else:
-            self.write(nepravilno)
-            return self.render_template("ugani.html",params=spremenljivke)
+        return self.render_template("ugani.html",params=spremenljivke)
 
 
 
