@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Seznam sporocil</title>
+</head>
+<body>
+<h1>SEZNAM SPOROCIL</h1>
+{% for shranjeno_sporocilo in seznam %}
+<p><a href="/sporocilo/{{shranjeno_sporocilo.key.id()}}">{{shranjeno_sporocilo.vnos}},{{shranjeno_sporocilo.key.id()}},{{shranjeno_sporocilo.nastanek}}</a></p>
+{% endfor %}
+
+<a href="/vnos-sporocila">NAZAJ NA VNOS SPOROCILA</a>
+
+</body>
+</html>

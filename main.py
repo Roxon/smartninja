@@ -2,6 +2,7 @@
 import os
 import jinja2
 import webapp2
+from models import Sporocilo
 
 
 template_dir = os.path.join(os.path.dirname(__file__), "templates")
@@ -30,48 +31,31 @@ class BaseHandler(webapp2.RequestHandler):
 class MainHandler(BaseHandler):
     def get(self):
         return self.render_template("hello.html")
-class OmeniHandler(BaseHandler):
+
+class VnosHandler(BaseHandler):
     def get(self):
-        return self.render_template("o_meni.html")
-class KontaktHandler(BaseHandler):
-    def get(self):
-        return self.render_template("kontakt.html")
-class BlogHandler(BaseHandler):
-    def get(self):
-        return self.render_template("blog.html")
-class KalkulatorHandler(BaseHandler):
-    def get(self):
-      return self.render_template("kalkulator.html")
+        return self.render_template("vnos-sporocila.html")
     def post(self):
-        stevilo1=self.request.get("stevilo1")
-        stevilo2=self.request.get("stevilo2")
-        operacija=self.request.get("operacija")
-        stevilo1=int(stevilo1)
-        stevilo2=int(stevilo2)
-        rezultat=0
-        if operacija == "+":
-            rezultat=stevilo1 + stevilo2
-        elif operacija == "-":
-            rezultat=stevilo1-stevilo2
-        elif operacija == "*":
-            rezultat=stevilo1*stevilo2
-        elif operacija == "/":
-            rezultat=stevilo1/stevilo2
+        shranjeno_sporocilo=Sporocilo(vnos=self.request.get("sporocilo"))
+        shranjeno_sporocilo.put()
 
-        spremenljivka={
-            "stevilo1":(stevilo1),
-            "stevilo2":(stevilo2),
-            "operacija":operacija,
-            "rezultat":rezultat,
-        }
+        return self.render_template("vnos-sporocila.html")
 
-        return self.render_template("kalkulator.html",params=spremenljivka)
+class SeznamHandler(BaseHandler):
+    def get(self):
+        seznam = Sporocilo.query().fetch()
+        params={"seznam": seznam}
+        return self.render_template("seznam-sporocil.html",params=params)
 
+class PosameznoHandler(BaseHandler):
+    def get(self,shranjeno_sporocilo_id):
+        shranjeno_sporocilo=Sporocilo.get_by_id(int(shranjeno_sporocilo_id))
+        params={"shranjeno_sporocilo":shranjeno_sporocilo}
+        return self.render_template("posamezno-sporocilo.html", params=params)
 
 app = webapp2.WSGIApplication([
     webapp2.Route('/', MainHandler),
-    webapp2.Route('/o_meni', OmeniHandler),
-    webapp2.Route('/kontakt', KontaktHandler),
-    webapp2.Route('/blog', BlogHandler),
-    webapp2.Route('/kalkulator', KalkulatorHandler),
+    webapp2.Route('/vnos-sporocila', VnosHandler),
+    webapp2.Route('/seznam-sporocil', SeznamHandler),
+    webapp2.Route('/sporocilo/<shranjeno_sporocilo_id:\d+>', PosameznoHandler)
 ], debug=True)
