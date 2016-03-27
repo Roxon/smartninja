@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Knjiga gostov seznam</title>
+</head>
+<body>
+{% for gost in seznam: %}
+<p><h3>{{gost.ime}}</h3><h3>{{gost.priimek}}</h3><br>
+<h3>{{gost.email}}</h3><br><h3>{{gost.sporocilo}}</h3><hr></p>
+{%endfor%}
+</body>
+</html>
